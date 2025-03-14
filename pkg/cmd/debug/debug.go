@@ -432,7 +432,15 @@ func (o *DebugOptions) Run(restClientGetter genericclioptions.RESTClientGetter, 
 		switch obj := info.Object.(type) {
 		case *corev1.Node:
 			debugPod, containerName, visitErr = o.visitNode(ctx, obj)
+			// if runtime.GOOS == "windows" {
+			// 	//Do stuff to import an hpc 
+			// 	fmt.Infof("Trying to setup windows node debugging using HPCs")
+			// }
+		
 		case *corev1.Pod:
+			// if runtime.GOOS == "windows" {
+			// 	return fmt.Errorf("Pod debugging is not supported on Windows. Use node debugging instead.")
+			// }
 			debugPod, containerName, visitErr = o.visitPod(ctx, obj)
 		default:
 			visitErr = fmt.Errorf("%q not supported by debug", info.Mapping.GroupVersionKind)
